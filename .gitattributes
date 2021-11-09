@@ -1,0 +1,17 @@
+# see https://stackoverflow.com/a/10855862/84693
+
+# auto detect text files and perform LF normalization
+*             text=auto
+
+*.py          text
+*.cfg         text
+*.in          text
+*.ini         text
+*.yml         text
+*.yaml        text
+*.toml        text
+*.txt         text
+*.md          text
+
+# explicitly use LF
+*.sh          text eol=lf
