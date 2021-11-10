@@ -2,7 +2,7 @@ import os
 
 from setuptools import setup, find_packages
 
-package_version = os.environ.get('PYTHON_PACKAGE_VERSION') or '0.dev'
+package_version = os.environ.get('PYTHON_PACKAGE_VERSION') or '0.0.dev0'
 
 setup(
     name='vektonn',
@@ -10,12 +10,16 @@ setup(
     description='Python client for Vektonn',
     license='Apache License 2.0',
     url='https://github.com/vektonn/vektonn-client-python',
+    maintainer='Vektonn team',
+    maintainer_email='info@vektonn.io',
     package_dir={'': 'src'},
     packages=find_packages(where='src'),
-    python_requires='>=3.6',
+    python_requires='>=3.7',
     install_requires=[
-        'aiohttp~=3.8',
-        'requests~=2.26',
+        'aiohttp~=3.8.0',
+        'orjson~=3.6.4',
+        'pydantic~=1.8.2',
+        'requests~=2.26.0',
     ],
     zip_safe=True,
     classifiers=[

@@ -1,0 +1,64 @@
+from typing import Type, Optional, List
+
+import requests
+from requests import Response
+
+from vektonn.dtos import VektonnBaseModel, ErrorDto, \
+    SearchQueryDto, SearchResultDto, SearchResultListDto, InputDataPointDto, UploadQueryDto
+from vektonn.errors import VektonnApiError
+from vektonn.service_endpoints import format_search_url, format_upload_url
+from vektonn.utils import assert_is_instance
+
+
+class Vektonn:
+    _base_url: str
+    _request_headers = {
+        'Accept': 'application/json',
+        'Content-type': 'application/json',
+    }
+
+    def __init__(self, base_url: str):
+        self._base_url = base_url
+
+    def search(
+        self,
+        index_name: str,
+        index_version: str,
+        search_query: SearchQueryDto,
+    ) -> List[SearchResultDto]:
+        url = format_search_url(self._base_url, index_name, index_version)
+        search_results = self._post(url, search_query, result_dto_type=SearchResultListDto)
+        return assert_is_instance(search_results, SearchResultListDto).__root__
+
+    def upload(
+        self,
+        data_source_name: str,
+        data_source_version: str,
+        input_data_points: List[InputDataPointDto],
+    ):
+        url = format_upload_url(self._base_url, data_source_name, data_source_version)
+        query_dto = UploadQueryDto(__root__=input_data_points)
+        self._post(url, query_dto, result_dto_type=None)
+
+    def _post(
+        self,
+        url: str,
+        query_dto: VektonnBaseModel,
+        result_dto_type: Optional[Type[VektonnBaseModel]]
+    ) -> Optional[VektonnBaseModel]:
+        request_content = query_dto.json()
+        response = requests.post(url, headers=self._request_headers, data=request_content)
+
+        if self._is_successful(response):
+            if result_dto_type is None:
+                return None
+            else:
+                return result_dto_type.parse_raw(response.text)
+
+        raise VektonnApiError(
+            status=response.status_code,
+            error=ErrorDto.parse_raw(response.text))
+
+    @staticmethod
+    def _is_successful(response: Response) -> bool:
+        return response.status_code == 200

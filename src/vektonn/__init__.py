@@ -1,10 +1,9 @@
-from .async_client import AsyncVektonn
-from .client import Vektonn
-from .contracts import VektonnSearchQuery, VektonnSearchResult
+from vektonn import dtos
+from vektonn.client import Vektonn
+from vektonn.errors import VektonnApiError
 
 __all__ = [
-    'AsyncVektonn',
+    'dtos',
     'Vektonn',
-    'VektonnSearchQuery',
-    'VektonnSearchResult',
+    'VektonnApiError'
 ]
