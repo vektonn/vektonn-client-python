@@ -1,8 +1,10 @@
 import pytest
 
-from tests import zero_vector, index_name, index_version, data_source_name, data_source_version
+from tests import zero_vector, index_name, index_version, data_source_name, data_source_version, is_vektonn_running
 from vektonn import VektonnAsync, VektonnApiError
 from vektonn.dtos import SearchQueryDto, SearchResultDto, InputDataPointDto, AttributeDto, AttributeValueDto
+
+pytestmark = pytest.mark.skipif(is_vektonn_running is not True, reason="Integration tests require Vektonn running")
 
 
 async def test_search__success(vektonn_client_async: VektonnAsync):
