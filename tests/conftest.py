@@ -1,10 +1,16 @@
 import pytest
 
-from vektonn import Vektonn
+from tests import vektonn_local_base_url
+from vektonn import Vektonn, VektonnAsync
 
-vektonn_local_base_url = 'http://localhost:8081'
+pytest_plugins = "aiohttp.pytest_plugin"
 
 
 @pytest.fixture(scope="session")
 def vektonn_client() -> Vektonn:
     return Vektonn(vektonn_local_base_url)
+
+
+@pytest.fixture(scope="session")
+def vektonn_client_async() -> VektonnAsync:
+    return VektonnAsync(vektonn_local_base_url)

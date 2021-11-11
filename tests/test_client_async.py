@@ -1,34 +1,34 @@
 import pytest
 
 from tests import zero_vector, index_name, index_version, data_source_name, data_source_version
-from vektonn import Vektonn, VektonnApiError
+from vektonn import VektonnAsync, VektonnApiError
 from vektonn.dtos import SearchQueryDto, SearchResultDto, InputDataPointDto, AttributeDto, AttributeValueDto
 
 
-def test_search__success(vektonn_client: Vektonn):
+async def test_search__success(vektonn_client_async: VektonnAsync):
     search_query = SearchQueryDto(k=1, query_vectors=[zero_vector])
-    search_results = vektonn_client.search(index_name, index_version, search_query)
+    search_results = await vektonn_client_async.search(index_name, index_version, search_query)
     assert search_results[0] == SearchResultDto(
         query_vector=search_query.query_vectors[0],
         nearest_data_points=[],
     )
 
 
-def test_search__index_does_not_exist(vektonn_client: Vektonn):
+async def test_search__index_does_not_exist(vektonn_client_async: VektonnAsync):
     non_existing_index_name = 'Non-existing.Index'
     search_query = SearchQueryDto(k=1, query_vectors=[zero_vector])
     with pytest.raises(VektonnApiError) as error_info:
-        vektonn_client.search(non_existing_index_name, index_version, search_query)
+        await vektonn_client_async.search(non_existing_index_name, index_version, search_query)
     assert error_info.value.status == 404
     assert error_info.value.error.error_messages == [
         f'Index IndexId {{ Name = {non_existing_index_name}, Version = {index_version} }} does not exist'
     ]
 
 
-def test_search__bad_request(vektonn_client: Vektonn):
+async def test_search__bad_request(vektonn_client_async: VektonnAsync):
     search_query = SearchQueryDto(k=-1, query_vectors=[])
     with pytest.raises(VektonnApiError) as error_info:
-        vektonn_client.search(index_name, index_version, search_query)
+        await vektonn_client_async.search(index_name, index_version, search_query)
     assert error_info.value.status == 400
     assert error_info.value.error.error_messages == [
         'K must be positive',
@@ -36,7 +36,7 @@ def test_search__bad_request(vektonn_client: Vektonn):
     ]
 
 
-def test_upload__success(vektonn_client: Vektonn):
+async def test_upload__success(vektonn_client_async: VektonnAsync):
     input_data_points = [
         InputDataPointDto(
             attributes=[
@@ -47,10 +47,10 @@ def test_upload__success(vektonn_client: Vektonn):
             is_deleted=True,
         )
     ]
-    vektonn_client.upload(data_source_name, data_source_version, input_data_points)
+    await vektonn_client_async.upload(data_source_name, data_source_version, input_data_points)
 
 
-def test_upload__data_source_does_not_exist(vektonn_client: Vektonn):
+async def test_upload__data_source_does_not_exist(vektonn_client_async: VektonnAsync):
     non_existing_data_source_name = 'Non-existing.Source'
     input_data_points = [
         InputDataPointDto(
@@ -59,14 +59,14 @@ def test_upload__data_source_does_not_exist(vektonn_client: Vektonn):
         )
     ]
     with pytest.raises(VektonnApiError) as error_info:
-        vektonn_client.upload(non_existing_data_source_name, data_source_version, input_data_points)
+        await vektonn_client_async.upload(non_existing_data_source_name, data_source_version, input_data_points)
     assert error_info.value.status == 404
     assert error_info.value.error.error_messages == [
         f'Data source DataSourceId {{ Name = {non_existing_data_source_name}, Version = {data_source_version} }} does not exist'
     ]
 
 
-def test_upload__bad_request(vektonn_client: Vektonn):
+async def test_upload__bad_request(vektonn_client_async: VektonnAsync):
     input_data_points = [
         InputDataPointDto(
             attributes=[
@@ -78,6 +78,6 @@ def test_upload__bad_request(vektonn_client: Vektonn):
         )
     ]
     with pytest.raises(VektonnApiError) as error_info:
-        vektonn_client.upload(data_source_name, data_source_version, input_data_points)
+        await vektonn_client_async.upload(data_source_name, data_source_version, input_data_points)
     assert error_info.value.status == 400
     assert error_info.value.error.error_messages == ['IsDeleted is inconsistent with Vector']
