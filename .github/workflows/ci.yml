@@ -32,6 +32,13 @@ jobs:
     - name: Install test dependencies
       run: python -m pip install -U tox
 
+    - name: Start Vektonn docker containers
+      if: runner.os == 'Linux'
+      run: |
+        docker-compose -f ./tests/vektonn-docker/docker-compose.yaml up --detach
+        ./scripts/wait-for-it.sh --strict --timeout=30 localhost:8081 -- echo 'vektonn-api service is up'
+        ./scripts/wait-for-it.sh --strict --timeout=30 localhost:8082 -- echo 'vektonn-index-shard service is up'
+
     - name: Test
       run: python -m tox -e py
 

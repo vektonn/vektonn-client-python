@@ -16,7 +16,7 @@ index_version = '0.1'
 zero_vector = VectorDto(is_sparse=False, coordinates=[0.0, 0.0])
 
 
-def is_vektonn_running() -> bool:
+def _is_vektonn_running() -> bool:
     with closing(socket.socket(socket.AF_INET, socket.SOCK_STREAM)) as sock:
         if sock.connect_ex((vektonn_api_host, vektonn_api_port)) == 0:
             return True
@@ -24,4 +24,4 @@ def is_vektonn_running() -> bool:
             return False
 
 
-is_vektonn_running = is_vektonn_running()
+is_vektonn_running = _is_vektonn_running()
