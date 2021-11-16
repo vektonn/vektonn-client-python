@@ -1,4 +1,4 @@
-from .dtos import ErrorDto
+from vektonn.dtos import ErrorDto
 
 
 class VektonnApiError(BaseException):

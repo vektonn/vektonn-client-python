@@ -66,7 +66,7 @@ class SearchResultListDto(VektonnBaseModel):
 class InputDataPointDto(VektonnBaseModel):
     attributes: List[AttributeDto]
     vector: Optional[VectorDto]
-    is_deleted: bool
+    is_deleted: bool = False
 
 
 class UploadQueryDto(VektonnBaseModel):

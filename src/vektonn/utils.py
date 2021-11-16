@@ -1,4 +1,4 @@
-from typing import Type, TypeVar, Any
+from typing import Any
 
 import orjson
 
@@ -13,12 +13,3 @@ def camel_case_pydantic_alias_generator(string: str) -> str:
 def orjson_dumps(obj: Any, *, default) -> str:
     # orjson.dumps returns bytes, to match standard json.dumps we need to decode
     return orjson.dumps(obj, default=default).decode()
-
-
-TClass = TypeVar('TClass')
-
-
-def assert_is_instance(obj: object, cls: Type[TClass]) -> TClass:
-    if not isinstance(obj, cls):
-        raise TypeError(f'obj is not an instance of cls: obj={obj} cls={cls}')
-    return obj

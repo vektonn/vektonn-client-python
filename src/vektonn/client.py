@@ -7,11 +7,9 @@ from vektonn.dtos import VektonnBaseModel, ErrorDto, \
     SearchQueryDto, SearchResultDto, SearchResultListDto, InputDataPointDto, UploadQueryDto
 from vektonn.errors import VektonnApiError
 from vektonn.service_endpoints import format_search_url, format_upload_url
-from vektonn.utils import assert_is_instance
 
 
 class Vektonn:
-    _base_url: str
     _request_headers = {
         'Accept': 'application/json',
         'Content-type': 'application/json',
@@ -28,7 +26,7 @@ class Vektonn:
     ) -> List[SearchResultDto]:
         url = format_search_url(self._base_url, index_name, index_version)
         search_results = self._post(url, search_query, result_dto_type=SearchResultListDto)
-        return assert_is_instance(search_results, SearchResultListDto).__root__
+        return search_results.__root__
 
     def upload(
         self,
@@ -38,13 +36,13 @@ class Vektonn:
     ):
         url = format_upload_url(self._base_url, data_source_name, data_source_version)
         query_dto = UploadQueryDto(__root__=input_data_points)
-        self._post(url, query_dto, result_dto_type=None)
+        self._post(url, query_dto)
 
     def _post(
         self,
         url: str,
         query_dto: VektonnBaseModel,
-        result_dto_type: Optional[Type[VektonnBaseModel]]
+        result_dto_type: Optional[Type[VektonnBaseModel]] = None
     ) -> Optional[VektonnBaseModel]:
         request_content = query_dto.json()
         response = requests.post(url, headers=self._request_headers, data=request_content)
