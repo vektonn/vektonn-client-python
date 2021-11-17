@@ -34,6 +34,7 @@ class AttributeValueDto(VektonnBaseModel):
     guid: Optional[UUID]
     bool: Optional[bool]
     int64: Optional[int]
+    float64: Optional[float]
     date_time: Optional[datetime]
 
 

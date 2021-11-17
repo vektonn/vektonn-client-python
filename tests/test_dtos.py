@@ -38,6 +38,8 @@ def test_json_serialization__vector_sparse():
          '{"key":"int_key","value":{"int64":42}}'),
         (AttributeDto(key='int_key', value=AttributeValueDto(int64=0)),
          '{"key":"int_key","value":{"int64":0}}'),
+        (AttributeDto(key='float_key', value=AttributeValueDto(float64=3.1415926)),
+         '{"key":"float_key","value":{"float64":3.1415926}}'),
         (AttributeDto(
             key='DateTimeKey',
             value=AttributeValueDto(date_time=datetime(year=2021, month=11, day=23, hour=23, minute=59, second=1))),
