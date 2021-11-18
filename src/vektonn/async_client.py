@@ -51,11 +51,12 @@ class VektonnAsync:
                         return None
                     else:
                         response_text = await response.text()
-                        return result_dto_type.parse_raw(response_text)
+                        return VektonnBaseModel.try_parse_json(response_text, result_dto_type)
 
+                response_text = await response.text()
                 raise VektonnApiError(
                     status=response.status,
-                    error=ErrorDto.parse_raw(await response.text()))
+                    error=VektonnBaseModel.try_parse_json(response_text, result_dto_type=ErrorDto))
 
     @staticmethod
     def _is_successful(response: ClientResponse) -> bool:

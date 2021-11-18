@@ -14,7 +14,7 @@ $ pip install vektonn
 
 Install specific version:
 ```shell
-$ pip install vektonn==0.5.0
+$ pip install vektonn==1.2.3
 ```
 
 Upgrade to the latest version:

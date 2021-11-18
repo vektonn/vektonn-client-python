@@ -51,11 +51,11 @@ class Vektonn:
             if result_dto_type is None:
                 return None
             else:
-                return result_dto_type.parse_raw(response.text)
+                return VektonnBaseModel.try_parse_json(response.text, result_dto_type)
 
         raise VektonnApiError(
             status=response.status_code,
-            error=ErrorDto.parse_raw(response.text))
+            error=VektonnBaseModel.try_parse_json(response.text, result_dto_type=ErrorDto))
 
     @staticmethod
     def _is_successful(response: Response) -> bool:

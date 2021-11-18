@@ -1,5 +1,7 @@
+from __future__ import annotations
+
 from datetime import datetime
-from typing import List, Optional
+from typing import List, Optional, Type
 from uuid import UUID
 
 import orjson
@@ -11,6 +13,19 @@ from vektonn.utils import camel_case_pydantic_alias_generator, orjson_dumps
 class VektonnBaseModel(BaseModel):
     def json(self, **kwargs) -> str:
         return super().json(by_alias=True, exclude_unset=True, exclude_none=True)
+
+    @staticmethod
+    def try_parse_json(
+        json_string: str,
+        result_dto_type: Type[VektonnBaseModel],
+    ) -> Optional[VektonnBaseModel]:
+        if not json_string:
+            return None
+        try:
+            return result_dto_type.parse_raw(json_string)
+        except Exception as err:
+            from vektonn.errors import VektonnError
+            raise VektonnError(message=f'Failed to parse json: "{json_string}"', inner_exception=err)
 
     class Config:
         alias_generator = camel_case_pydantic_alias_generator
