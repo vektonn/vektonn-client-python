@@ -12,7 +12,7 @@ from vektonn.service_endpoints import format_search_url, format_upload_url
 class Vektonn:
     _request_headers = {
         'Accept': 'application/json',
-        'Content-type': 'application/json',
+        'Content-Type': 'application/json; charset=utf-8',
     }
 
     def __init__(self, base_url: str):
@@ -44,7 +44,7 @@ class Vektonn:
         query_dto: VektonnBaseModel,
         result_dto_type: Optional[Type[VektonnBaseModel]] = None
     ) -> Optional[VektonnBaseModel]:
-        request_content = query_dto.json()
+        request_content = query_dto.json().encode('utf-8')
         response = requests.post(url, headers=self._request_headers, data=request_content)
 
         if self._is_successful(response):

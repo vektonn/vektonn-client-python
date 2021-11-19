@@ -44,7 +44,7 @@ async def test_upload__success(vektonn_client_async: VektonnAsync):
             attributes=[
                 AttributeDto(key='Id', value=AttributeValueDto(int64=42)),
                 AttributeDto(key='SplitId', value=AttributeValueDto(bool=True)),
-                AttributeDto(key='Payload', value=AttributeValueDto(string='la-la-la')),
+                AttributeDto(key='Payload', value=AttributeValueDto(string='la-la-la and some unicode chars Ὀδύσσεια 曳航')),
             ],
             is_deleted=True,
         )

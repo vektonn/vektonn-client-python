@@ -10,7 +10,7 @@ on:
     - master
 
 env:
-  VEKTONN_PYTHON_PACKAGE_VERSION: 0.5.2
+  VEKTONN_PYTHON_PACKAGE_VERSION: 0.5.3
 
 jobs:
   test:
