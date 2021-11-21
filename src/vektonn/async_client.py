@@ -2,8 +2,10 @@ from typing import Type, Optional, List
 
 from aiohttp import ClientResponse, ClientSession
 
-from vektonn.dtos import VektonnBaseModel, ErrorDto, \
+from vektonn.dtos import (
+    VektonnBaseModel, ErrorDto,
     SearchQueryDto, SearchResultDto, SearchResultListDto, InputDataPointDto, UploadQueryDto
+)
 from vektonn.errors import VektonnApiError
 from vektonn.service_endpoints import format_search_url, format_upload_url
 

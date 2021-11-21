@@ -3,8 +3,10 @@ from uuid import UUID
 
 import pytest
 
-from vektonn.dtos import AttributeDto, VectorDto, AttributeValueDto, UploadQueryDto, InputDataPointDto, ErrorDto, \
-    SearchResultDto, FoundDataPointDto
+from vektonn.dtos import (
+    AttributeDto, AttributeValueDto, VectorDto, ErrorDto,
+    UploadQueryDto, InputDataPointDto, SearchResultDto, FoundDataPointDto
+)
 
 
 def test_json_serialization__vector_dense():
