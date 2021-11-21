@@ -4,7 +4,7 @@ import requests
 from requests import Response
 
 from vektonn.dtos import (
-    VektonnBaseModel, ErrorDto,
+    TVektonnModel, VektonnBaseModel, ErrorDto,
     SearchQueryDto, SearchResultDto, SearchResultListDto, InputDataPointDto, UploadQueryDto
 )
 from vektonn.errors import VektonnApiError
@@ -28,6 +28,7 @@ class Vektonn:
     ) -> List[SearchResultDto]:
         url = format_search_url(self._base_url, index_name, index_version)
         search_results = self._post(url, search_query, result_dto_type=SearchResultListDto)
+        assert search_results is not None
         return search_results.__root__
 
     def upload(
@@ -44,8 +45,8 @@ class Vektonn:
         self,
         url: str,
         query_dto: VektonnBaseModel,
-        result_dto_type: Optional[Type[VektonnBaseModel]] = None
-    ) -> Optional[VektonnBaseModel]:
+        result_dto_type: Optional[Type[TVektonnModel]] = None
+    ) -> Optional[TVektonnModel]:
         request_content = query_dto.json().encode('utf-8')
         response = requests.post(url, headers=self._request_headers, data=request_content)
 

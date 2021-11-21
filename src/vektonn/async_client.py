@@ -3,7 +3,7 @@ from typing import Type, Optional, List
 from aiohttp import ClientResponse, ClientSession
 
 from vektonn.dtos import (
-    VektonnBaseModel, ErrorDto,
+    TVektonnModel, VektonnBaseModel, ErrorDto,
     SearchQueryDto, SearchResultDto, SearchResultListDto, InputDataPointDto, UploadQueryDto
 )
 from vektonn.errors import VektonnApiError
@@ -27,6 +27,7 @@ class VektonnAsync:
     ) -> List[SearchResultDto]:
         url = format_search_url(self._base_url, index_name, index_version)
         search_results = await self._post(url, search_query, result_dto_type=SearchResultListDto)
+        assert search_results is not None
         return search_results.__root__
 
     async def upload(
@@ -43,8 +44,8 @@ class VektonnAsync:
         self,
         url: str,
         query_dto: VektonnBaseModel,
-        result_dto_type: Optional[Type[VektonnBaseModel]] = None
-    ) -> Optional[VektonnBaseModel]:
+        result_dto_type: Optional[Type[TVektonnModel]] = None
+    ) -> Optional[TVektonnModel]:
         request_content = query_dto.json().encode('utf-8')
         async with ClientSession() as requests:
             async with requests.post(url, headers=self._request_headers, data=request_content) as response:

@@ -1,13 +1,16 @@
 from __future__ import annotations
 
 from datetime import datetime
-from typing import List, Optional, Type
+from typing import List, Optional, Type, TypeVar
 from uuid import UUID
 
 import orjson
 from pydantic import BaseModel
 
 from vektonn.utils import camel_case_pydantic_alias_generator, orjson_dumps
+
+
+TVektonnModel = TypeVar('TVektonnModel', bound='VektonnBaseModel')
 
 
 class VektonnBaseModel(BaseModel):
@@ -17,8 +20,8 @@ class VektonnBaseModel(BaseModel):
     @staticmethod
     def try_parse_json(
         json_string: str,
-        result_dto_type: Type[VektonnBaseModel],
-    ) -> Optional[VektonnBaseModel]:
+        result_dto_type: Type[TVektonnModel],
+    ) -> Optional[TVektonnModel]:
         if not json_string:
             return None
         try:
