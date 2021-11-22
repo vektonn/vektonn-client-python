@@ -4,13 +4,12 @@ on:
   push:
     branches:
     - '**'
+    tags:
+    - 'v[0-9]+.[0-9]+.[0-9]+'
 
   pull_request:
     branches:
     - master
-
-env:
-  VEKTONN_PYTHON_PACKAGE_VERSION: 0.5.3
 
 jobs:
   test:
@@ -43,11 +42,16 @@ jobs:
       run: python -m tox -e py
 
   pypi-publish:
-    if: github.ref == 'refs/heads/master'
+    if: startsWith(github.ref, 'refs/tags/v')
     needs: test
     runs-on: ubuntu-latest
     timeout-minutes: 3
     steps:
+    - name: Set environment variables
+      run: |
+        VEKTONN_PYTHON_PACKAGE_VERSION=${GITHUB_REF/refs\/tags\/v/}
+        echo "VEKTONN_PYTHON_PACKAGE_VERSION=$VEKTONN_PYTHON_PACKAGE_VERSION" >> $GITHUB_ENV
+
     - name: Checkout
       uses: actions/checkout@v2
 
@@ -67,4 +71,4 @@ jobs:
       with:
         user: __token__
         password: ${{ secrets.PYPI_API_TOKEN }}
-        skip_existing: true
+        skip_existing: false
