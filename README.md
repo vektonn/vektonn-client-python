@@ -24,7 +24,7 @@ $ pip install --upgrade vektonn
 
 ## Usage
 
-Having [Vektonn API](https://vektonn.github.io/vektonn/swagger/index.html) running on `localhost:8081` one can access it with synchronous Python client:
+Having Vektonn running on `localhost:8081` and configured for [QuickStart](https://github.com/vektonn/vektonn-examples/tree/master/quick-start) examples one can access it with synchronous Python client:
 
 ```python
 from vektonn import Vektonn
