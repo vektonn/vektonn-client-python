@@ -76,4 +76,4 @@ for fdp in search_results[0].nearest_data_points:
     attrs = {x.key : x.value for x in fdp.attributes}
     distance, vector, dp_id, payload = fdp.distance, fdp.vector, attrs['id'].int64, attrs['payload'].string
     print(f' - "{payload}" with id = {dp_id}, vector = {vector.coordinates}, distance = {distance}')
-'''
+```
