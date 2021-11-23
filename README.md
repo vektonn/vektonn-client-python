@@ -52,7 +52,7 @@ vektonn_client.upload(
         InputDataPointDto(
             attributes=[
                 AttributeDto(key='id', value=AttributeValueDto(int64=1)),
-                AttributeDto(key='payload', value=AttributeValueDto(string='first data point')),
+                AttributeDto(key='payload', value=AttributeValueDto(string='sample data point')),
             ],
             vector=VectorDto(is_sparse=False, coordinates=[3.14, 2.71]))
     ])
