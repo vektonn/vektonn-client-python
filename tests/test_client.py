@@ -44,9 +44,8 @@ def test_upload__success(vektonn_client: Vektonn):
     input_data_points = [
         InputDataPointDto(
             attributes=[
-                AttributeDto(key='Id', value=AttributeValueDto(int64=42)),
-                AttributeDto(key='SplitId', value=AttributeValueDto(bool=True)),
-                AttributeDto(key='Payload', value=AttributeValueDto(string='la-la-la and some unicode chars Ὀδύσσεια 曳航')),
+                AttributeDto(key='id', value=AttributeValueDto(int64=42)),
+                AttributeDto(key='payload', value=AttributeValueDto(string='la-la-la and some unicode chars Ὀδύσσεια 曳航')),
             ],
             is_deleted=True,
         )
@@ -58,7 +57,7 @@ def test_upload__data_source_does_not_exist(vektonn_client: Vektonn):
     non_existing_data_source_name = 'Non-existing.Source'
     input_data_points = [
         InputDataPointDto(
-            attributes=[AttributeDto(key='Id', value=AttributeValueDto(int64=42))],
+            attributes=[AttributeDto(key='id', value=AttributeValueDto(int64=42))],
             is_deleted=True,
         )
     ]
@@ -75,9 +74,8 @@ def test_upload__bad_request(vektonn_client: Vektonn):
     input_data_points = [
         InputDataPointDto(
             attributes=[
-                AttributeDto(key='Id', value=AttributeValueDto(int64=42)),
-                AttributeDto(key='SplitId', value=AttributeValueDto(bool=True)),
-                AttributeDto(key='Payload', value=AttributeValueDto(string='la-la-la')),
+                AttributeDto(key='id', value=AttributeValueDto(int64=42)),
+                AttributeDto(key='payload', value=AttributeValueDto(string='la-la-la')),
             ],
             is_deleted=False,
         )

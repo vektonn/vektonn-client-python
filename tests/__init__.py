@@ -7,11 +7,11 @@ vektonn_api_host = 'localhost'
 vektonn_api_port = 8081
 vektonn_api_base_url = f'http://{vektonn_api_host}:{vektonn_api_port}'
 
-data_source_name = 'Samples.DenseVectors'
-data_source_version = '0.1'
+data_source_name = 'QuickStart.Source'
+data_source_version = '1.0'
 
-index_name = 'Samples.DenseVectors'
-index_version = '0.1'
+index_name = 'QuickStart.Index'
+index_version = '1.0'
 
 zero_vector = VectorDto(is_sparse=False, coordinates=[0.0, 0.0])
 
