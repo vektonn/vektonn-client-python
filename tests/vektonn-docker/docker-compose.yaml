@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   vektonn-api:
-    image: ghcr.io/vektonn/api-service:0.5.12
+    image: ghcr.io/vektonn/api-service:0.6.1
     hostname: vektonn-api
     container_name: vektonn-api
     depends_on:
@@ -16,7 +16,7 @@ services:
     - VEKTONN_KAFKA_BOOTSTRAP_SERVERS=kafka-broker:9092
 
   vektonn-index-shard:
-    image: ghcr.io/vektonn/index-shard-service:0.5.12
+    image: ghcr.io/vektonn/index-shard-service:0.6.1
     hostname: vektonn-index-shard
     container_name: vektonn-index-shard
     depends_on:
