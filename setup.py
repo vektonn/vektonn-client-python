@@ -13,7 +13,7 @@ setup(
     install_requires=[
         'aiohttp~=3.8.0',
         'orjson~=3.6.4',
-        'pydantic~=1.8.2',
+        'pydantic~=1.9.0',
         'requests~=2.26.0',
     ],
 )
