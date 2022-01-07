@@ -18,6 +18,7 @@ on:
 jobs:
   test:
     strategy:
+      fail-fast: false
       matrix:
         python: ['3.7', '3.8', '3.9', '3.10']
         platform: [ubuntu-latest, macos-latest, windows-latest]
@@ -43,7 +44,9 @@ jobs:
         ./scripts/wait-for-it.sh --strict --timeout=30 localhost:8082 -- echo 'vektonn-index-shard service is up'
 
     - name: Test
-      run: python -m tox -e py
+      run: |
+        mkdir .mypy_cache
+        python -m tox -e py
 
   pypi-publish:
     if: startsWith(github.ref, 'refs/tags/v')
