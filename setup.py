@@ -11,9 +11,9 @@ setup(
     packages=find_packages(where='src'),
     python_requires='>=3.7',
     install_requires=[
-        'aiohttp~=3.8.0',
-        'orjson~=3.6.4',
+        'aiohttp~=3.8.1',
+        'orjson~=3.6.5',
         'pydantic~=1.9.0',
-        'requests~=2.26.0',
+        'requests~=2.27.1',
     ],
 )
