@@ -1,16 +1,14 @@
-
-**Vektonn** is a high-performance battle-tested [kNN vector search](https://en.wikipedia.org/wiki/Nearest_neighbor_search#k-nearest_neighbors) engine for your data science applications.
-It helps you manage vectors' lifecycle and radically reduces time to market.
-
-See [documentation](https://vektonn.github.io/vektonn/) for more info.
-
-
 # Python client for Vektonn
 
 [![CI](https://github.com/vektonn/vektonn-client-python/actions/workflows/ci.yml/badge.svg)](https://github.com/vektonn/vektonn-client-python/actions/workflows/ci.yml)
 [![version](https://img.shields.io/pypi/v/vektonn.svg?color=blue)](https://pypi.org/project/vektonn/)
 [![Supported Python Versions](https://img.shields.io/pypi/pyversions/vektonn?logo=python&logoColor=blue)](https://pypi.org/project/vektonn/)
 [![license](https://img.shields.io/hexpm/l/plug.svg?color=green)](https://github.com/vektonn/vektonn-client-python/blob/master/LICENSE)
+
+**Vektonn** is a high-performance battle-tested [kNN vector search](https://en.wikipedia.org/wiki/Nearest_neighbor_search#k-nearest_neighbors) engine for your data science applications.
+It helps you manage vectors' lifecycle and radically reduces time to market.
+
+See [documentation](https://vektonn.github.io/vektonn/) for more info.
 
 ## Installation
 
