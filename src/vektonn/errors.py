@@ -1,6 +1,6 @@
 from typing import Optional
 
-from vektonn.dtos import ErrorDto
+from vektonn.dtos import ErrorResult
 
 
 class VektonnError(Exception):
@@ -18,7 +18,7 @@ class VektonnApiError(VektonnError):
     def __init__(
         self,
         status: int,
-        error: Optional[ErrorDto],
+        error: Optional[ErrorResult],
     ):
         self.status = status
         self.error = error

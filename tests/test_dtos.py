@@ -4,13 +4,13 @@ from uuid import UUID
 import pytest
 
 from vektonn.dtos import (
-    AttributeDto, AttributeValueDto, VectorDto, ErrorDto,
-    UploadQueryDto, InputDataPointDto, SearchResultDto, FoundDataPointDto
+    Attribute, AttributeValue, Vector, ErrorResult,
+    UploadQuery, InputDataPoint, SearchResult, FoundDataPoint
 )
 
 
 def test_json_serialization__vector_dense():
-    dto = VectorDto(
+    dto = Vector(
         is_sparse=False,
         coordinates=[1.0, 0, 0.1],
         coordinate_indices=None,
@@ -19,7 +19,7 @@ def test_json_serialization__vector_dense():
 
 
 def test_json_serialization__vector_sparse():
-    dto = VectorDto(
+    dto = Vector(
         is_sparse=True,
         coordinates=[1.0, 0.1],
         coordinate_indices=[7, 42],
@@ -30,32 +30,32 @@ def test_json_serialization__vector_sparse():
 @pytest.mark.parametrize(
     'dto, expected_json',
     [
-        (AttributeDto(key='Str_Key', value=AttributeValueDto(string='Str_Value')),
+        (Attribute(key='Str_Key', value=AttributeValue(string='Str_Value')),
          '{"key":"Str_Key","value":{"string":"Str_Value"}}'),
-        (AttributeDto(key='UuidKey', value=AttributeValueDto(guid=UUID('12345678-1234-1234-1234-123456789abc'))),
+        (Attribute(key='UuidKey', value=AttributeValue(guid=UUID('12345678-1234-1234-1234-123456789abc'))),
          '{"key":"UuidKey","value":{"guid":"12345678-1234-1234-1234-123456789abc"}}'),
-        (AttributeDto(key='bool_key', value=AttributeValueDto(bool=True)),
+        (Attribute(key='bool_key', value=AttributeValue(bool=True)),
          '{"key":"bool_key","value":{"bool":true}}'),
-        (AttributeDto(key='int_key', value=AttributeValueDto(int64=42)),
+        (Attribute(key='int_key', value=AttributeValue(int64=42)),
          '{"key":"int_key","value":{"int64":42}}'),
-        (AttributeDto(key='int_key', value=AttributeValueDto(int64=0)),
+        (Attribute(key='int_key', value=AttributeValue(int64=0)),
          '{"key":"int_key","value":{"int64":0}}'),
-        (AttributeDto(key='float_key', value=AttributeValueDto(float64=3.1415926)),
+        (Attribute(key='float_key', value=AttributeValue(float64=3.1415926)),
          '{"key":"float_key","value":{"float64":3.1415926}}'),
-        (AttributeDto(
+        (Attribute(
             key='DateTimeKey',
-            value=AttributeValueDto(date_time=datetime(year=2021, month=11, day=23, hour=23, minute=59, second=1))),
+            value=AttributeValue(date_time=datetime(year=2021, month=11, day=23, hour=23, minute=59, second=1))),
          '{"key":"DateTimeKey","value":{"dateTime":"2021-11-23T23:59:01"}}'),
     ]
 )
-def test_json_serialization__attribute(dto: AttributeDto, expected_json: str):
+def test_json_serialization__attribute(dto: Attribute, expected_json: str):
     assert dto.json() == expected_json
 
 
 def test_json_serialization__upload_query():
-    dto = UploadQueryDto(__root__=[
-        InputDataPointDto(
-            attributes=[(AttributeDto(key='k', value=AttributeValueDto(bool=False)))],
+    dto = UploadQuery(__root__=[
+        InputDataPoint(
+            attributes=[(Attribute(key='k', value=AttributeValue(bool=False)))],
             vector=None,
             is_deleted=True,
         )
@@ -65,8 +65,8 @@ def test_json_serialization__upload_query():
 
 def test_json_deserialization__error():
     json = '{"errorMessages":["First error message","Second error message"]}'
-    expected_dto = ErrorDto(error_messages=['First error message', 'Second error message'])
-    assert ErrorDto.parse_raw(json) == expected_dto
+    expected_dto = ErrorResult(error_messages=['First error message', 'Second error message'])
+    assert ErrorResult.parse_raw(json) == expected_dto
 
 
 def test_json_deserialization__search_result():
@@ -81,22 +81,22 @@ def test_json_deserialization__search_result():
            '"distance":0.2}' \
            ']' \
            '}'
-    expected_dto = SearchResultDto(
-        query_vector=VectorDto(is_sparse=False, coordinates=[1.0, 0.0, 0.1]),
+    expected_dto = SearchResult(
+        query_vector=Vector(is_sparse=False, coordinates=[1.0, 0.0, 0.1]),
         nearest_data_points=[
-            FoundDataPointDto(
-                vector=VectorDto(is_sparse=False, coordinates=[1.0, 0.0, 0.1]),
-                attributes=[AttributeDto(key="Id", value=AttributeValueDto(int64=23))],
+            FoundDataPoint(
+                vector=Vector(is_sparse=False, coordinates=[1.0, 0.0, 0.1]),
+                attributes=[Attribute(key="Id", value=AttributeValue(int64=23))],
                 distance=0.0
             ),
-            FoundDataPointDto(
-                vector=VectorDto(is_sparse=True, coordinates=[-1.0, 0.0, -0.1], coordinate_indices=[7, 0, 42]),
+            FoundDataPoint(
+                vector=Vector(is_sparse=True, coordinates=[-1.0, 0.0, -0.1], coordinate_indices=[7, 0, 42]),
                 attributes=[
-                    AttributeDto(key="Id", value=AttributeValueDto(int64=-1)),
-                    AttributeDto(key="Data", value=AttributeValueDto(string='some payload')),
+                    Attribute(key="Id", value=AttributeValue(int64=-1)),
+                    Attribute(key="Data", value=AttributeValue(string='some payload')),
                 ],
                 distance=0.2
             ),
         ]
     )
-    assert SearchResultDto.parse_raw(json) == expected_dto
+    assert SearchResult.parse_raw(json) == expected_dto

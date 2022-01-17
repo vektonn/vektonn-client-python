@@ -1,7 +1,7 @@
 import socket
 from contextlib import closing
 
-from vektonn.dtos import VectorDto
+from vektonn.dtos import Vector
 
 vektonn_api_host = 'localhost'
 vektonn_api_port = 8081
@@ -13,7 +13,7 @@ data_source_version = '1.0'
 index_name = 'QuickStart.Index'
 index_version = '1.0'
 
-zero_vector = VectorDto(is_sparse=False, coordinates=[0.0, 0.0])
+zero_vector = Vector(is_sparse=False, coordinates=[0.0, 0.0])
 
 
 def _is_vektonn_running() -> bool:
