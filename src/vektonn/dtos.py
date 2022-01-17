@@ -37,17 +37,17 @@ class VektonnBaseModel(BaseModel):
         json_dumps = orjson_dumps
 
 
-class ErrorDto(VektonnBaseModel):
+class ErrorResult(VektonnBaseModel):
     error_messages: List[str]
 
 
-class VectorDto(VektonnBaseModel):
+class Vector(VektonnBaseModel):
     is_sparse: bool
     coordinates: List[float]
     coordinate_indices: Optional[List[int]]
 
 
-class AttributeValueDto(VektonnBaseModel):
+class AttributeValue(VektonnBaseModel):
     string: Optional[str]
     guid: Optional[UUID]
     bool: Optional[bool]
@@ -56,37 +56,37 @@ class AttributeValueDto(VektonnBaseModel):
     date_time: Optional[datetime]
 
 
-class AttributeDto(VektonnBaseModel):
+class Attribute(VektonnBaseModel):
     key: str
-    value: AttributeValueDto
+    value: AttributeValue
 
 
-class SearchQueryDto(VektonnBaseModel):
-    split_filter: Optional[List[AttributeDto]]
-    query_vectors: List[VectorDto]
+class SearchQuery(VektonnBaseModel):
+    split_filter: Optional[List[Attribute]]
+    query_vectors: List[Vector]
     k: int
 
 
-class FoundDataPointDto(VektonnBaseModel):
-    vector: VectorDto
-    attributes: List[AttributeDto]
+class FoundDataPoint(VektonnBaseModel):
+    vector: Vector
+    attributes: List[Attribute]
     distance: float
 
 
-class SearchResultDto(VektonnBaseModel):
-    query_vector: VectorDto
-    nearest_data_points: List[FoundDataPointDto]
+class SearchResult(VektonnBaseModel):
+    query_vector: Vector
+    nearest_data_points: List[FoundDataPoint]
 
 
-class SearchResultListDto(VektonnBaseModel):
-    __root__: List[SearchResultDto]
+class SearchResultList(VektonnBaseModel):
+    __root__: List[SearchResult]
 
 
-class InputDataPointDto(VektonnBaseModel):
-    attributes: List[AttributeDto]
-    vector: Optional[VectorDto]
+class InputDataPoint(VektonnBaseModel):
+    attributes: List[Attribute]
+    vector: Optional[Vector]
     is_deleted: bool = False
 
 
-class UploadQueryDto(VektonnBaseModel):
-    __root__: List[InputDataPointDto]
+class UploadQuery(VektonnBaseModel):
+    __root__: List[InputDataPoint]

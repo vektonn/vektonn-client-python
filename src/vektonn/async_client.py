@@ -3,8 +3,8 @@ from typing import Type, Optional, List
 from aiohttp import ClientResponse, ClientSession
 
 from vektonn.dtos import (
-    TVektonnModel, VektonnBaseModel, ErrorDto,
-    SearchQueryDto, SearchResultDto, SearchResultListDto, InputDataPointDto, UploadQueryDto
+    TVektonnModel, VektonnBaseModel, ErrorResult,
+    SearchQuery, SearchResult, SearchResultList, InputDataPoint, UploadQuery
 )
 from vektonn.errors import VektonnApiError
 from vektonn.service_endpoints import format_search_url, format_upload_url
@@ -23,10 +23,10 @@ class VektonnAsync:
         self,
         index_name: str,
         index_version: str,
-        search_query: SearchQueryDto,
-    ) -> List[SearchResultDto]:
+        search_query: SearchQuery,
+    ) -> List[SearchResult]:
         url = format_search_url(self._base_url, index_name, index_version)
-        search_results = await self._post(url, search_query, result_dto_type=SearchResultListDto)
+        search_results = await self._post(url, search_query, result_dto_type=SearchResultList)
         assert search_results is not None
         return search_results.__root__
 
@@ -34,10 +34,10 @@ class VektonnAsync:
         self,
         data_source_name: str,
         data_source_version: str,
-        input_data_points: List[InputDataPointDto],
+        input_data_points: List[InputDataPoint],
     ):
         url = format_upload_url(self._base_url, data_source_name, data_source_version)
-        query_dto = UploadQueryDto(__root__=input_data_points)
+        query_dto = UploadQuery(__root__=input_data_points)
         await self._post(url, query_dto)
 
     async def _post(
@@ -59,7 +59,7 @@ class VektonnAsync:
                 response_text = await response.text()
                 raise VektonnApiError(
                     status=response.status,
-                    error=VektonnBaseModel.try_parse_json(response_text, result_dto_type=ErrorDto))
+                    error=VektonnBaseModel.try_parse_json(response_text, result_dto_type=ErrorResult))
 
     @staticmethod
     def _is_successful(response: ClientResponse) -> bool:
