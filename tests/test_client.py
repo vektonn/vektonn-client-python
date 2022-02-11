@@ -9,7 +9,7 @@ pytestmark = pytest.mark.skipif(is_vektonn_running is not True, reason="Integrat
 
 def test_search__success(vektonn_client: Vektonn):
     search_query = SearchQuery(k=1, query_vectors=[zero_vector])
-    search_results = vektonn_client.search(index_name, index_version, search_query)
+    search_results = vektonn_client.search(index_name, index_version, search_query, request_timeout_seconds=1)
     assert search_results[0] == SearchResult(
         query_vector=search_query.query_vectors[0],
         nearest_data_points=[],

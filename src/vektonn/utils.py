@@ -1,6 +1,18 @@
-from typing import Any
+from typing import Any, Optional
 
 import orjson
+
+_request_headers = {
+    'Accept': 'application/json',
+    'Content-Type': 'application/json; charset=utf-8',
+}
+
+
+def prepare_request_headers(request_timeout_seconds: Optional[float] = None):
+    if request_timeout_seconds is None:
+        return _request_headers
+    else:
+        return {**_request_headers, 'Request-Timeout': f'{request_timeout_seconds:.3f}'}
 
 
 def camel_case_pydantic_alias_generator(string: str) -> str:
