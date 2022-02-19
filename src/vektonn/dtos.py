@@ -9,7 +9,6 @@ from pydantic import BaseModel
 
 from vektonn.utils import camel_case_pydantic_alias_generator, orjson_dumps
 
-
 TVektonnModel = TypeVar('TVektonnModel', bound='VektonnBaseModel')
 
 
@@ -65,10 +64,11 @@ class SearchQuery(VektonnBaseModel):
     split_filter: Optional[List[Attribute]]
     query_vectors: List[Vector]
     k: int
+    retrieveVectors: bool = True
 
 
 class FoundDataPoint(VektonnBaseModel):
-    vector: Vector
+    vector: Optional[Vector]
     attributes: List[Attribute]
     distance: float
 

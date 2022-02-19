@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   vektonn-api:
-    image: ghcr.io/vektonn/api-service:0.6.10
+    image: ghcr.io/vektonn/api-service:0.7.13-beta
     hostname: vektonn-api
     container_name: vektonn-api
     depends_on:
@@ -16,7 +16,7 @@ services:
     - VEKTONN_KAFKA_BOOTSTRAP_SERVERS=kafka-broker:9092
 
   vektonn-index-shard:
-    image: ghcr.io/vektonn/index-shard-service:0.6.10
+    image: ghcr.io/vektonn/index-shard-service:0.7.13-beta
     hostname: vektonn-index-shard
     container_name: vektonn-index-shard
     depends_on:
@@ -37,7 +37,6 @@ services:
     container_name: kafka-broker
     ports:
     - 9092:9092
-    - 9101:9101
     environment:
     - KAFKA_LISTENERS=PLAINTEXT://kafka-broker:9092,CONTROLLER://kafka-broker:9093
     - KAFKA_LISTENER_SECURITY_PROTOCOL_MAP=PLAINTEXT:PLAINTEXT,CONTROLLER:PLAINTEXT
