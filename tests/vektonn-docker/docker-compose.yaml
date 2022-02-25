@@ -14,6 +14,7 @@ services:
     - ./config:/vektonn/config:ro
     environment:
     - VEKTONN_KAFKA_BOOTSTRAP_SERVERS=kafka-broker:9092
+    - VEKTONN_KAFKA_TOPIC_REPLICATION_FACTOR=1
 
   vektonn-index-shard:
     image: ghcr.io/vektonn/index-shard-service:0.7.13-beta
