@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from datetime import datetime
-from typing import List, Optional, Type, TypeVar
+from typing import List, Optional, Type, TypeVar, Dict, Any
 from uuid import UUID
 
 import orjson
@@ -44,6 +44,19 @@ class Vector(VektonnBaseModel):
     is_sparse: bool
     coordinates: List[float]
     coordinate_indices: Optional[List[int]]
+
+    def dict(
+        self,
+        *,
+        by_alias: bool = False,
+        exclude_none: bool = False,
+        **kwargs,
+    ) -> Dict[str, Any]:
+        return {
+            self.__fields__[field_key].alias if by_alias else field_key: field_value
+            for field_key, field_value in self.__dict__.items()
+            if field_value is not None or not exclude_none
+        }
 
 
 class AttributeValue(VektonnBaseModel):

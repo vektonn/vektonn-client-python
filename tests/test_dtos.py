@@ -52,7 +52,7 @@ def test_json_serialization__attribute(dto: Attribute, expected_json: str):
     assert dto.json() == expected_json
 
 
-def test_json_serialization__upload_query():
+def test_json_serialization__upload_query_delete():
     dto = UploadQuery(__root__=[
         InputDataPoint(
             attributes=[(Attribute(key='k', value=AttributeValue(bool=False)))],
@@ -61,6 +61,25 @@ def test_json_serialization__upload_query():
         )
     ])
     assert dto.json() == '[{"attributes":[{"key":"k","value":{"bool":false}}],"isDeleted":true}]'
+
+
+def test_json_serialization__upload_query_insert():
+    dto = UploadQuery(__root__=[
+        InputDataPoint(
+            attributes=[(Attribute(key='k', value=AttributeValue(bool=True)))],
+            vector=Vector(
+                is_sparse=False,
+                coordinates=[1.0, -0.1],
+                coordinate_indices=None,
+            ),
+            is_deleted=False,
+        )
+    ])
+    assert dto.json() == '[' \
+                         '{"attributes":[{"key":"k","value":{"bool":true}}],' \
+                         '"vector":{"isSparse":false,"coordinates":[1.0,-0.1]},' \
+                         '"isDeleted":false}' \
+                         ']'
 
 
 def test_json_deserialization__error():
