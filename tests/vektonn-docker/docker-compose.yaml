@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   vektonn-api:
-    image: ghcr.io/vektonn/api-service:0.7.22
+    image: ghcr.io/vektonn/api-service:0.7.25
     hostname: vektonn-api
     container_name: vektonn-api
     depends_on:
